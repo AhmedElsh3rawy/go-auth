@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/AhmedElsh3rawy/go-auth/middleware"
 	"github.com/joho/godotenv"
 )
 
@@ -21,9 +22,12 @@ func main() {
 
 	router.HandleFunc("GET /", getHello)
 
+	stack := middleware.CreateStack(
+		middleware.Logging)
+
 	server := http.Server{
 		Addr:    ":8080",
-		Handler: router,
+		Handler: stack(router),
 	}
 
 	log.Println("[server]: running on localhost:8080")
