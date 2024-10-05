@@ -5,11 +5,13 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/AhmedElsh3rawy/go-auth/database"
+	"github.com/AhmedElsh3rawy/go-auth/handler"
 	"github.com/AhmedElsh3rawy/go-auth/middleware"
 	"github.com/joho/godotenv"
 )
 
-func getHello(w http.ResponseWriter, r *http.Request) {
+func GetHello(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello, World!"))
 }
 
@@ -19,12 +21,17 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// initialize database
+	database.InitDB()
+
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", getHello)
+	router.HandleFunc("GET /", GetHello)
 
 	stack := middleware.CreateStack(
 		middleware.Logging)
+
+	router.HandleFunc("POST /users/register", handler.Register)
 
 	server := http.Server{
 		Addr:    ":8080",
