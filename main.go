@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -30,7 +31,14 @@ func main() {
 		Handler: stack(router),
 	}
 
-	log.Println("[server]: running on localhost:8080")
+	fmt.Println("[server]: running on localhost:8080")
+	fmt.Println(`
+    ░██████╗░░█████╗░  ░█████╗░██████╗░██╗
+    ██╔════╝░██╔══██╗  ██╔══██╗██╔══██╗██║
+    ██║░░██╗░██║░░██║  ███████║██████╔╝██║
+    ██║░░╚██╗██║░░██║  ██╔══██║██╔═══╝░██║
+    ╚██████╔╝╚█████╔╝  ██║░░██║██║░░░░░██║
+    ░╚═════╝░░╚════╝░  ╚═╝░░╚═╝╚═╝░░░░░╚═╝`)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Printf("Error starting server: %v\n", err)
