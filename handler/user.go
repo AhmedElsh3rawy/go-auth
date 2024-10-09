@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/AhmedElsh3rawy/go-auth/database"
-	"github.com/AhmedElsh3rawy/go-auth/helpers"
 	"github.com/AhmedElsh3rawy/go-auth/users"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +31,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hash, err := helpers.HashPassword([]byte(body.Password))
+	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 	if err != nil {
 		fmt.Println("error hashing password")
 		return
@@ -71,7 +71,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = helpers.ComparePasswords([]byte(u.Password), []byte(body.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(body.Password))
 	if err != nil {
 		http.Error(w, "Invalid email or password", http.StatusBadRequest)
 		return
