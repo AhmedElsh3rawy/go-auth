@@ -8,6 +8,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type Token struct {
+	ID     int32
+	UserID uuid.NullUUID
+	Token  string
+}
+
 type User struct {
 	ID       uuid.UUID
 	Username string
